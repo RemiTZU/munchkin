@@ -1,14 +1,21 @@
 import java.util.*;
 
 public class Paquet {
-    private List<Carte> cartes;
+    private List<Carte> cartesTresors;
+    private List<Carte> cartesPorte;
 
     public Paquet() {
-        this.cartes = new ArrayList<>();
+        this.cartesTresors = new ArrayList<>();
+        this.cartesPorte = new ArrayList<>();
     }
 
-    public void ajouterCarte(Carte carte) {
-        cartes.add(carte);
+    // Ajouter les méthodes pour ajouter les cartes à leur liste respective
+    public void ajouterCarteTresor(Carte carte) {
+        cartesTresors.add(carte);
+    }
+
+    public void ajouterCartePorte(Carte carte) {
+        cartesPorte.add(carte);
     }
 
     public void creerCartes() {
@@ -20,11 +27,11 @@ public class Paquet {
                 "Vous perdez un équipement info, sinon -1 niveau");
         Monstre profMalhonete = new Monstre("Un prof un peu malhonnête", 14, "-2 à votre jet de fuite", "-2 niveaux");
 
-        // Ajout des monstres au paquet
-        ajouterCarte(tpRenduMaison);
-        ajouterCarte(tpRenduFinDuCours);
-        ajouterCarte(virusInformatique);
-        ajouterCarte(profMalhonete);
+        // Ajout des monstres au paquet de cartes Porte
+        ajouterCartePorte(tpRenduMaison);
+        ajouterCartePorte(tpRenduFinDuCours);
+        ajouterCartePorte(virusInformatique);
+        ajouterCartePorte(profMalhonete);
 
         // Ajout des nouveaux équipements
         Equipement jogginsGris = new Equipement("Joggins gris", 1, "pantalon", "");
@@ -32,11 +39,11 @@ public class Paquet {
         Equipement packDeBiere = new Equipement("Pack de bière", 5, "gros, 1 mains", "");
         Equipement ordiSurpuissant = new Equipement("Ordi surpuissant", 5, "INFO, 1 main", "");
 
-        // Ajout des équipements au paquet
-        ajouterCarte(jogginsGris);
-        ajouterCarte(chaussureDeSport);
-        ajouterCarte(packDeBiere);
-        ajouterCarte(ordiSurpuissant);
+        // Ajout des nouveaux équipements au paquet de cartes Tresors
+        ajouterCarteTresor(jogginsGris);
+        ajouterCarteTresor(chaussureDeSport);
+        ajouterCarteTresor(packDeBiere);
+        ajouterCarteTresor(ordiSurpuissant);
 
         // Ajout des nouvelles races
         Race informatique = new Race("Informatique", "Puanteur : niveau doublé en affrontant des monstres seul");
@@ -49,9 +56,9 @@ public class Paquet {
         Race doubleDiplome = new Race("Double Diplôme", "2 classes possibles");
         Race boursier = new Race("Boursier", "Vend pour le double du prix (eh merce le crous)");
 
-        // Ajout des races au paquet
-        for (Race race : Arrays.asList(informatique,mecanique,imsi,edim,energie,alternant,tc,doubleDiplome,boursier)){
-            ajouterCarte(race);
+        // Ajout des races au paquet de cartes Porte
+        for (Race race : Arrays.asList(informatique, mecanique, imsi, edim, energie, alternant, tc, doubleDiplome, boursier)) {
+            ajouterCartePorte(race);
         }
 
         // Ajout des nouveaux sorts
@@ -70,22 +77,30 @@ public class Paquet {
         Sort absenceInjustifiee = new Sort("Absence injustifiée", -5, "au joueur");
         Sort retourEnTC1 = new Sort("Retour en TC1", +10, "Au monstre");
 
-        // Ajout des sorts au paquet
+        // Ajout des nouveaux sorts au paquet de cartes Tresors
         for (Sort sort : Arrays.asList(pleurerDansLesJupesDuProf, larbinEnInfo, larbinEnEDIM, larbinEnMeca, larbinEnImsi, larbinEnEnergie, larbin, tricherPourPasser, recopierPourMieuxPasser, feuilleDeTriche, enerverLeProf, seFaireChopperATricher, absenceInjustifiee, retourEnTC1)) {
-            ajouterCarte(sort);
+            ajouterCarteTresor(sort);
         }
 
     }
 
     public void melanger() {
-        Collections.shuffle(cartes);
+        Collections.shuffle(cartesTresors);
+        Collections.shuffle(cartesPorte);
     }
 
-    public Carte tirerCarte() {
-        if (cartes.isEmpty()) {
+    public Carte tirerCarteTresors() {
+        if (cartesTresors.isEmpty()) {
             return null; // Pas de carte à tirer
         }
-        return cartes.remove(0);
+        return cartesTresors.remove(0);
+    }
+
+    public Carte tirerCartePortes() {
+        if (cartesPorte.isEmpty()) {
+            return null; // Pas de carte à tirer
+        }
+        return cartesPorte.remove(0);
     }
 
     // Méthodes d'affichage pour chaque type de carte
@@ -143,16 +158,30 @@ public class Paquet {
 
     }
 
-    public Carte tirerCarteAleatoire() {
-        if (cartes.isEmpty()) {
+    public Carte tirerCarteAleatoire(PaquetType paquetType) {
+        List<Carte> paquet;
+
+        // Sélectionner le paquet en fonction du type spécifié
+        if (paquetType == PaquetType.TRESORS) {
+            paquet = cartesTresors;
+        } else if (paquetType == PaquetType.PORTE) {
+            paquet = cartesPorte;
+        } else {
+            System.out.println("Type de paquet non reconnu.");
+            return null;
+        }
+
+        if (paquet.isEmpty()) {
             System.out.println("Le paquet est vide. Aucune carte à tirer.");
             return null;
         }
 
+        System.out.println("Carte tirée : " + paquetType );
+
         // Sélection aléatoire d'une carte
         Random random = new Random();
-        int indexCarteTiree = random.nextInt(cartes.size());
-        Carte carteTiree = cartes.remove(indexCarteTiree);
+        int indexCarteTiree = random.nextInt(paquet.size());
+        Carte carteTiree = paquet.remove(indexCarteTiree);
 
         // Appel de la méthode d'affichage en fonction du type de carte
         if (carteTiree instanceof Equipement) {
@@ -173,6 +202,9 @@ public class Paquet {
 
         return carteTiree;
     }
+
+
+
 }
 
 
