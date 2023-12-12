@@ -1,12 +1,18 @@
 public class Sort extends Carte {
-    private int puissance;
+    private int bonus;
+    private String effet;
 
-    public Sort(String nom, int puissance) {
+    public Sort(String nom, int bonus, String effet) {
         super(nom);
-        this.puissance = puissance;
+        this.bonus = bonus;
+        this.effet = effet;
     }
 
-    public int getPuissance() {
-        return puissance;
+    public int getBonus() {
+        return bonus;
+    }
+
+    public String getEffet() {
+        return effet;
     }
 }
