@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class Paquet {
     private List<Carte> cartes;
@@ -41,6 +38,43 @@ public class Paquet {
         ajouterCarte(packDeBiere);
         ajouterCarte(ordiSurpuissant);
 
+        // Ajout des nouvelles races
+        Race informatique = new Race("Informatique", "Puanteur : niveau doublé en affrontant des monstres seul");
+        Race mecanique = new Race("Mécanique", "Main pleine de graisse : +1 pour fuir");
+        Race imsi = new Race("IMSI", "Baratineur");
+        Race edim = new Race("EDIM", "Fuite à succès : quand réussi à fuir, prend 1 trésor");
+        Race energie = new Race("Energie", "Gagne 1 niveau quand aide un adversaire");
+        Race alternant = new Race("Alternant", "Multi casquette : peut avoir 6 cartes en main");
+        Race tc = new Race("TC", "Chance du débutant : les monstres de niveau 5 ou moins sont vaincus automatiquement");
+        Race doubleDiplome = new Race("Double Diplôme", "2 classes possibles");
+        Race boursier = new Race("Boursier", "Vend pour le double du prix (eh merce le crous)");
+
+        // Ajout des races au paquet
+        for (Race race : Arrays.asList(informatique,mecanique,imsi,edim,energie,alternant,tc,doubleDiplome,boursier)){
+            ajouterCarte(race);
+        }
+
+        // Ajout des nouveaux sorts
+        Sort pleurerDansLesJupesDuProf = new Sort("Pleurer dans les jupes du prof", 0, "Gain de 1 niveau");
+        Sort larbinEnInfo = new Sort("Larbin en info", 1, "Permet d'avoir un objet d'info");
+        Sort larbinEnEDIM = new Sort("Larbin en EDIM", 1, "Permet d'avoir un objet en EDIM");
+        Sort larbinEnMeca = new Sort("Larbin en Meca", 1, "Permet d'avoir un objet en Meca");
+        Sort larbinEnImsi = new Sort("Larbin en Imsi", 1, "Permet d'avoir un objet en Imsi");
+        Sort larbinEnEnergie = new Sort("Larbin en energie", 1, "Permet d'avoir un objet en energie");
+        Sort larbin = new Sort("Larbin", 1, "Permet d'avoir un objet en plus");
+        Sort tricherPourPasser = new Sort("Tricher pour passer", 0, "Gain de 1 niveau");
+        Sort recopierPourMieuxPasser = new Sort("Recopier pour mieux passer", 0, "Gain de 1 niveau");
+        Sort feuilleDeTriche = new Sort("Feuille de triche", +5, "au joueur");
+        Sort enerverLeProf = new Sort("Enerver le prof", +10, "au monstre");
+        Sort seFaireChopperATricher = new Sort("Se faire chopper à tricher", -10, "au joueur");
+        Sort absenceInjustifiee = new Sort("Absence injustifiée", -5, "au joueur");
+        Sort retourEnTC1 = new Sort("Retour en TC1", +10, "Au monstre");
+
+        // Ajout des sorts au paquet
+        for (Sort sort : Arrays.asList(pleurerDansLesJupesDuProf, larbinEnInfo, larbinEnEDIM, larbinEnMeca, larbinEnImsi, larbinEnEnergie, larbin, tricherPourPasser, recopierPourMieuxPasser, feuilleDeTriche, enerverLeProf, seFaireChopperATricher, absenceInjustifiee, retourEnTC1)) {
+            ajouterCarte(sort);
+        }
+
     }
 
     public void melanger() {
@@ -70,7 +104,23 @@ public class Paquet {
     }
 
     public void afficherSort(Sort sort) {
-        System.out.println("Sort tiré : " + sort.getNom() + " (Puissance : " + sort.getPuissance() + ")");
+        System.out.println("-----------------------------------------------");
+        System.out.println("Sort tiré : " + sort.getNom() );
+        if (sort.getBonus() != 0) {
+            System.out.println("Bonus : " + sort.getBonus());
+        }
+        if (!sort.getEffet().isEmpty()) {
+            System.out.println("Type : " + sort.getEffet());
+        }
+        System.out.println("-----------------------------------------------");
+
+    }
+
+    public void afficherRace(Race race) {
+        System.out.println("-----------------------------------------------");
+        System.out.println("Race tirée : " + race.getNom() + " \nBonus : " + race.getBonus() + "");
+        System.out.println("-----------------------------------------------");
+
     }
 
     public void afficherBonus(Bonus bonus) {
@@ -115,6 +165,8 @@ public class Paquet {
             afficherCarteMalediction((CarteMalediction) carteTiree);
         } else if (carteTiree instanceof Monstre) {
             afficherMonstre((Monstre) carteTiree);
+        } else if (carteTiree instanceof Race) {
+            afficherRace((Race) carteTiree);
         } else {
             System.out.println("Carte tirée : " + carteTiree.getNom());
         }
