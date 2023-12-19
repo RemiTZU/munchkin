@@ -21,4 +21,17 @@ public class Equipement extends Carte {
     public String getEffet() {
         return effet;
     }
+
+    public void afficherEquipement() {
+        System.out.println("-----------------------------------------------");
+        System.out.println("Equipement tiré : " + getNom());
+        System.out.println("Bonus : " + getBonus());
+        if (!getType().isEmpty()) {
+            System.out.println("Type : " + getType());
+        }
+        if (!getEffet().isEmpty()) {
+            System.out.println("Effet : " + getEffet());
+        }
+        System.out.println("-----------------------------------------------");
+    }
 }
