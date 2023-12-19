@@ -3,6 +3,8 @@ public class Monstre extends Carte {
     private String effet;
     private String incidentFacheux;
 
+    String nom = super.getNom();
+
     public Monstre(String nom, int niveau, String effet, String incidentFacheux) {
         super(nom);
         this.niveau = niveau;
@@ -20,5 +22,17 @@ public class Monstre extends Carte {
 
     public String getIncidentFacheux() {
         return incidentFacheux;
+    }
+
+    public void afficherMonstre() {
+        System.out.println("-----------------------------------------------");
+        System.out.println("Monstre tiré : " + getNom());
+        System.out.println("Niveau: " + getNiveau());
+        if (!getEffet().isEmpty()) {
+            System.out.println("Effet : " + getEffet());
+        }
+        System.out.println("Incident Fâcheux : " + getIncidentFacheux());
+        System.out.println("-----------------------------------------------");
+
     }
 }
