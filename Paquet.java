@@ -103,68 +103,13 @@ public class Paquet {
         return cartesPorte.remove(0);
     }
 
-    // Méthodes d'affichage pour chaque type de carte
-
-    public void afficherEquipement(Equipement equipement) {
-        System.out.println("-----------------------------------------------");
-        System.out.println("Equipement tiré : " + equipement.getNom());
-        System.out.println("Bonus : " + equipement.getBonus());
-        if (!equipement.getType().isEmpty()) {
-            System.out.println("Type : " + equipement.getType());
-        }
-        if (!equipement.getEffet().isEmpty()) {
-            System.out.println("Effet : " + equipement.getEffet());
-        }
-        System.out.println("-----------------------------------------------");
-    }
-
-    public void afficherSort(Sort sort) {
-        System.out.println("-----------------------------------------------");
-        System.out.println("Sort tiré : " + sort.getNom() );
-        if (sort.getBonus() != 0) {
-            System.out.println("Bonus : " + sort.getBonus());
-        }
-        if (!sort.getEffet().isEmpty()) {
-            System.out.println("Type : " + sort.getEffet());
-        }
-        System.out.println("-----------------------------------------------");
-
-    }
-
-    public void afficherRace(Race race) {
-        System.out.println("-----------------------------------------------");
-        System.out.println("Race tirée : " + race.getNom() + " \nBonus : " + race.getBonus() + "");
-        System.out.println("-----------------------------------------------");
-
-    }
-
-    public void afficherBonus(Bonus bonus) {
-        System.out.println("Bonus tiré : " + bonus.getNom() + " (Description : " + bonus.getDescription() + ")");
-    }
-
-    public void afficherCarteMalediction(CarteMalediction malediction) {
-        System.out.println("Carte Malediction tirée : " + malediction.getNom());
-    }
-
-    public void afficherMonstre(Monstre monstre) {
-        System.out.println("-----------------------------------------------");
-        System.out.println("Monstre tiré : " + monstre.getNom());
-        System.out.println("Niveau: " + monstre.getNiveau());
-        if (!monstre.getEffet().isEmpty()) {
-            System.out.println("Effet : " + monstre.getEffet());
-        }
-        System.out.println("Incident Fâcheux : " + monstre.getIncidentFacheux());
-        System.out.println("-----------------------------------------------");
-
-    }
-
-    public Carte tirerCarteAleatoire(PaquetType paquetType) {
+    public Carte tirerCarteAleatoire(String paquetType) {
         List<Carte> paquet;
 
         // Sélectionner le paquet en fonction du type spécifié
-        if (paquetType == PaquetType.TRESORS) {
+        if (Objects.equals(paquetType, "TRESORS")) {
             paquet = cartesTresors;
-        } else if (paquetType == PaquetType.PORTE) {
+        } else if (Objects.equals(paquetType, "PORTE")) {
             paquet = cartesPorte;
         } else {
             System.out.println("Type de paquet non reconnu.");
@@ -185,17 +130,13 @@ public class Paquet {
 
         // Appel de la méthode d'affichage en fonction du type de carte
         if (carteTiree instanceof Equipement) {
-            afficherEquipement((Equipement) carteTiree);
+            ((Equipement) carteTiree).afficherEquipement();
         } else if (carteTiree instanceof Sort) {
-            afficherSort((Sort) carteTiree);
-        } else if (carteTiree instanceof Bonus) {
-            afficherBonus((Bonus) carteTiree);
-        } else if (carteTiree instanceof CarteMalediction) {
-            afficherCarteMalediction((CarteMalediction) carteTiree);
+            ((Sort) carteTiree).afficherSort();
         } else if (carteTiree instanceof Monstre) {
-            afficherMonstre((Monstre) carteTiree);
+            ((Monstre) carteTiree).afficherMonstre();
         } else if (carteTiree instanceof Race) {
-            afficherRace((Race) carteTiree);
+            ((Race) carteTiree).afficherRace();
         } else {
             System.out.println("Carte tirée : " + carteTiree.getNom());
         }
