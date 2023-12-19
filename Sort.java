@@ -15,4 +15,17 @@ public class Sort extends Carte {
     public String getEffet() {
         return effet;
     }
+
+    public void afficherSort() {
+        System.out.println("-----------------------------------------------");
+        System.out.println("Sort tiré : " + getNom() );
+        if (getBonus() != 0) {
+            System.out.println("Bonus : " + getBonus());
+        }
+        if (!getEffet().isEmpty()) {
+            System.out.println("Type : " + getEffet());
+        }
+        System.out.println("-----------------------------------------------");
+
+    }
 }
