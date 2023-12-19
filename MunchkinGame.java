@@ -9,13 +9,13 @@ public class MunchkinGame {
         // Mélange du paquet
         paquet.melanger();
 
-        paquet.tirerCarteAleatoire(PaquetType.TRESORS);
-        paquet.tirerCarteAleatoire(PaquetType.PORTE);
-        paquet.tirerCarteAleatoire(PaquetType.PORTE);
-        paquet.tirerCarteAleatoire(PaquetType.TRESORS);
-        paquet.tirerCarteAleatoire(PaquetType.PORTE);
-        paquet.tirerCarteAleatoire(PaquetType.TRESORS);
-        paquet.tirerCarteAleatoire(PaquetType.PORTE);
+        paquet.tirerCarteAleatoire("TRESORS");
+        paquet.tirerCarteAleatoire("PORTE");
+        paquet.tirerCarteAleatoire("PORTE");
+        paquet.tirerCarteAleatoire("TRESORS");
+        paquet.tirerCarteAleatoire("PORTE");
+        paquet.tirerCarteAleatoire("TRESORS");
+        paquet.tirerCarteAleatoire("PORTE");
 
     }
 }
