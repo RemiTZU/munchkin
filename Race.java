@@ -9,4 +9,11 @@ public class Race extends Carte {
     public String getBonus() {
         return bonus;
     }
+
+    public void afficherRace() {
+        System.out.println("-----------------------------------------------");
+        System.out.println("Race tirée : " + getNom() + " \nBonus : " + getBonus() + "");
+        System.out.println("-----------------------------------------------");
+
+    }
 }
