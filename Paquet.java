@@ -128,24 +128,8 @@ public class Paquet {
         int indexCarteTiree = random.nextInt(paquet.size());
         Carte carteTiree = paquet.remove(indexCarteTiree);
 
-        // Appel de la méthode d'affichage en fonction du type de carte
-        if (carteTiree instanceof Equipement) {
-            ((Equipement) carteTiree).afficherEquipement();
-        } else if (carteTiree instanceof Sort) {
-            ((Sort) carteTiree).afficherSort();
-        } else if (carteTiree instanceof Monstre) {
-            ((Monstre) carteTiree).afficherMonstre();
-        } else if (carteTiree instanceof Race) {
-            ((Race) carteTiree).afficherRace();
-        } else {
-            System.out.println("Carte tirée : " + carteTiree.getNom());
-        }
-
         return carteTiree;
     }
-
-
-
 }
 
 
