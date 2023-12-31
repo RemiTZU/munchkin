@@ -11,15 +11,10 @@ public class Tour {
         joueurs = new ArrayList<>();
         demanderNomsJoueurs(nbJoueurs);
         for (Joueur joueur : joueurs) {
-            joueur.piocherCarte(paquet.tirerCarteAleatoire("PORTE"));
-            joueur.piocherCarte(paquet.tirerCarteAleatoire("PORTE"));
-            joueur.piocherCarte(paquet.tirerCarteAleatoire("PORTE"));
-            joueur.piocherCarte(paquet.tirerCarteAleatoire("PORTE"));
-            joueur.piocherCarte(paquet.tirerCarteAleatoire("TRESORS"));
-            joueur.piocherCarte(paquet.tirerCarteAleatoire("TRESORS"));
-            joueur.piocherCarte(paquet.tirerCarteAleatoire("TRESORS"));
-            joueur.piocherCarte(paquet.tirerCarteAleatoire("TRESORS"));
-
+            for (int i = 0; i < 4; i++) {
+                joueur.piocherCarte(paquet.tirerCarteAleatoire("PORTE"));
+                joueur.piocherCarte(paquet.tirerCarteAleatoire("TRESORS"));
+            }
         }
     }
 
@@ -35,14 +30,25 @@ public class Tour {
 
     public void tour() {
         System.out.println("Début du tour.");
-
         // tour pour chaque joueur
         for (Joueur joueur : joueurs) {
+            System.out.println("-----------------------------------------------");
+
             System.out.println("\nTour du joueur : " + joueur.getNom());
             joueur.afficherJoueur();
+            System.out.println("-----------------------------------------------");
+
+            // Le joueur peut choisir de jouer une carte de sa main.
+            int choix=0;
+            do {
+                choix = joueur.jouerCarte();
+                System.out.println("-----------------------------------------------");
+            } while (choix != 0);
 
             // Pioche d'une carte porte
-            Carte cartePorte = paquet.tirerCarteAleatoire("PORTE");
+            System.out.println("Le  joueur "+ joueur.getNom() +" pioche d'une carte porte.");
+            Carte cartePorte = paquet.tirerCarteAleatoire("PORTE"); 
+            System.out.println("-----------------------------------------------");
 
             // Vérification du type de la carte porte
             if (cartePorte instanceof Monstre) {
@@ -61,19 +67,48 @@ public class Tour {
                 // Le joueur peut choisir de jouer un monstre de sa main et le combattre
                 // ou de piocher une autre carte porte qui va directement dans sa main.
                 demanderChoixJoueur(joueur);
+                System.out.println("-----------------------------------------------");
             }
 
             // Le joueur peut choisir de jouer une carte de sa main.
-            int choix;
+            choix = 0;
             do {
                 choix = joueur.jouerCarte();
+                System.out.println("-----------------------------------------------");
             } while (choix != 0);
-
+            
+            
+            // Le joueur peut choisir de vendre un équipement ou un sort
+            int vente=0;
+            while (vente!=2){
+                try{
+                    Scanner scanner = new Scanner(System.in);
+                    System.out.println("Voulez-vous vendre un équipement ou un sort ?");
+                    System.out.println("1. Oui\n2. Non");
+                    int reponse = scanner.nextInt();
+                    if (reponse == 1) {
+                        joueur.vendreEquipementOuSort();
+                    }
+                    else if (reponse == 2) {
+                        vente=2;
+                    }
+                    else{
+                        System.out.println("Veuillez entrer un nombre valide.");
+                    }
+                }
+                    catch (InputMismatchException e){
+                    System.out.println("Veuillez entrer un nombre valide.");
+                }
+                System.out.println("-----------------------------------------------");
+            }
+            
             // A la fin de son tour, le joueur doit avoir maximum 5 cartes dans sa main.
             distribuerCartesEnTrop(joueur);
 
             // Affichage du joueur après son tour
+            System.out.println("-----------------------------------------------");
             joueur.afficherJoueur();
+            System.out.println("-----------------------------------------------");
         }
 
         System.out.println("\nFin du tour.");

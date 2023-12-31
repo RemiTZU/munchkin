@@ -6,6 +6,7 @@ public class Joueur {
     private List<Carte> main;
     private List<Equipement> board;
     private Race race;
+    private int minimumPourFuir;
 
     public Joueur(String nom) {
         this.nom = nom;
@@ -13,6 +14,7 @@ public class Joueur {
         this.board = new ArrayList<>();
         this.niveau = 1; // Initialisation du niveau à 1
         this.race = null;
+        this.minimumPourFuir = 5;
 
     }
 
@@ -111,6 +113,42 @@ public class Joueur {
         // Ajouter ici la logique pour gérer la perte du combat
         System.out.println("Le joueur perd le combat contre le monstre.");
         // Vous pouvez appliquer des effets néfastes ou autres conséquences.
+        System.out.println("Le joueur peut essayer de fuir");
+        fuir(monstre);
+    }
+
+    // Ajout de la méthode fuir et des incidents facheux si le joueur ne réussi pas à fuir
+    public void fuir(Monstre monstre){
+        System.out.println("Lancer de dé pour fuir");
+        int de = (int) (Math.random() * 6 + 1);
+        System.out.println("Le joueur a fait un "+de);
+        
+        if (de >= minimumPourFuir){
+            System.out.println("Le joueur a réussi à fuir");
+        }else{
+            System.out.println("Le joueur n'a pas réussi à fuir");
+            System.out.println("L'effet du monstre s'applique");
+            if (Objects.equals(monstre.getIncidentFacheux(), "-2 niveaux")){
+                System.out.println("Le joueur perd 2 niveaux");
+                niveau = niveau - 2;
+            }
+            if (Objects.equals(monstre.getIncidentFacheux(), "-1 niveau")){
+                System.out.println("Le joueur perd 1 niveau");
+                niveau = niveau - 1;
+            }
+            if (Objects.equals(monstre.getIncidentFacheux(), "Perte de tous les équipements")){
+                System.out.println("Le joueur perd tous ses équipements");
+                board.clear();
+            }
+            if (Objects.equals(monstre.getIncidentFacheux(), "Perte d'un équipement aléatoire")){
+                System.out.println("Le joueur perd un équipement aléatoire");
+                int index = (int) (Math.random() * board.size());
+                board.remove(index);
+                System.out.println("L'équipement "+board.get(index).getNom()+" a été retiré");
+            }
+
+        }
+
     }
 
     // Ajout de la méthode jouerMonstreEtCombattre
@@ -130,7 +168,7 @@ public class Joueur {
         }
 
         for (int i = 0; i < monstresDansMain.size(); i++) {
-            System.out.println((i + 1) + ". " + monstresDansMain.get(i).getNom());
+            System.out.println((i + 1) + ". " + monstresDansMain.get(i).getNom()+ " Niveau : "+monstresDansMain.get(i).getNiveau());
         }
 
         // Choix du monstre à jouer
@@ -347,5 +385,142 @@ public class Joueur {
         System.out.println("Race du joueur : " + (race != null ? race.getNom() : "Aucune race"));
         afficherMain();
         afficherBoard();
+    }
+
+    public List<Equipement> getEquipementsMainVendable() {
+        List<Equipement> equipements = new ArrayList<>();
+        for (Carte carte : main) {
+            if (carte instanceof Equipement) {
+                if (((Equipement) carte).getPrix() > 0) equipements.add((Equipement) carte);
+            }
+        }
+        return equipements;
+    }
+
+    public List<Sort> getSortsMainVendable() {
+        List<Sort> sorts = new ArrayList<>();
+        for (Carte carte : main) {
+            if (carte instanceof Sort) {
+                if (((Sort) carte).getPrix() > 0) sorts.add((Sort) carte);
+            }
+        }
+        return sorts;
+    }
+
+    public List<Equipement> getEquipementsBoardVendable() {
+        List<Equipement> equipements = new ArrayList<>();
+        for (Equipement equipement : board) {
+            if (equipement.getPrix() > 0) equipements.add(equipement);
+        }
+        return equipements;
+    }
+
+    public void vendreEquipementOuSort(){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Choisissez un équipement ou un sort à vendre, pour pouvoir vendre le prix total doit dépasser 100euros :");
+        
+        List<Equipement> EquipementAVendreDeLaMain = new ArrayList<>();
+        List<Equipement> EquipementAVendreDuBoard = new ArrayList<>();
+        List<Sort> SortAVendre = new ArrayList<>();
+        List<Equipement> EquipementVenduDeLaMain = new ArrayList<>();
+        List<Equipement> EquipementVenduDuBoard = new ArrayList<>();
+        List<Sort> SortVendu = new ArrayList<>();
+        int somme = 0;
+
+        // Ajout des équipements de la main à la liste des équipements à vendre
+        for (Equipement equipement : getEquipementsMainVendable()) {
+            EquipementAVendreDeLaMain.add(equipement);
+        }
+        for (Equipement equipement : getEquipementsBoardVendable()) {
+            EquipementAVendreDuBoard.add(equipement);
+        }
+        for (Sort sort : getSortsMainVendable()) {
+            SortAVendre.add(sort);
+        }
+
+        
+
+        // Choix de la carte à vendre
+        while (somme < 100 ) {
+            try {
+                int  i=0;
+                System.out.println("0. Ne rien vendre");
+                for (Equipement equipement : EquipementAVendreDeLaMain) {
+                    System.out.println((i + 1) + ". " + equipement.getNom() + " Prix : " + equipement.getPrix());
+                    i++;
+                }
+                for (Equipement equipement : EquipementAVendreDuBoard) {
+                    System.out.println((i + 1) + ". " + equipement.getNom() + " Prix : " + equipement.getPrix());
+                    i++;
+                }
+                int j=i;
+                for (Sort sort : SortAVendre) {
+                    System.out.println((i + 1) + ". " + sort.getNom() + " Prix : " + sort.getPrix());
+                    i++;
+                }
+                System.out.print("Choix : ");
+                int choix = scanner.nextInt();
+                if (choix == 0) {
+                    System.out.println("Le joueur ne vend rien.");
+                    return;
+                }
+                if (choix > 0 && choix <= EquipementAVendreDeLaMain.size()) {
+                    Equipement equipement = EquipementAVendreDeLaMain.get(choix - 1);
+                    somme = somme + equipement.getPrix();
+                    System.out.println("Le joueur a vendu un équipement : " + equipement.getNom());
+                    EquipementAVendreDeLaMain.remove(equipement);
+                    EquipementVenduDeLaMain.add(equipement);
+
+                    if (somme >= 100) {
+                        System.out.println("Le joueur a vendu pour plus de 100euros.");
+                        niveau = niveau + 1;
+                        System.out.println("Le joueur a gagné un niveau.");
+                        return;
+                    }
+                } else if (choix > EquipementAVendreDeLaMain.size() && choix <= EquipementAVendreDuBoard.size() + EquipementAVendreDeLaMain.size()) {
+                    Equipement equipement = EquipementAVendreDuBoard.get(choix - EquipementAVendreDeLaMain.size() - 1);
+                    somme = somme + equipement.getPrix();
+                    System.out.println("Le joueur a vendu un équipement : " + equipement.getNom());
+                    EquipementAVendreDuBoard.remove(equipement);
+                    EquipementVenduDuBoard.add(equipement);
+
+                    if (somme >= 100) {
+                        System.out.println("Le joueur a vendu pour plus de 100euros.");
+                        niveau = niveau + 1;
+                        System.out.println("Le joueur a gagné un niveau.");
+                        return;
+                    }
+                } else if (choix > EquipementAVendreDuBoard.size() + EquipementAVendreDeLaMain.size() && choix <= EquipementAVendreDuBoard.size() + EquipementAVendreDeLaMain.size() + SortAVendre.size()) {
+                    Sort sort = SortAVendre.get(choix - EquipementAVendreDuBoard.size() - EquipementAVendreDeLaMain.size() - 1);
+                    somme = somme + sort.getPrix();
+                    System.out.println("Le joueur a vendu un sort : " + sort.getNom());
+                    SortAVendre.remove(sort);
+                    SortVendu.add(sort);
+
+                    if (somme >= 100) {
+                        System.out.println("Le joueur a vendu pour plus de 100euros.");
+                        niveau = niveau + 1;
+                        System.out.println("Le joueur a gagné un niveau.");
+                        return;
+                    }
+                } else {
+                    System.out.println("Choix invalide. Veuillez choisir une carte valide.");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Entrée invalide. Veuillez choisir une carte valide.");
+            }
+        }
+
+        if (somme >=100){
+            for (Equipement equipement : EquipementVenduDuBoard){
+                board.remove(equipement);
+            }
+            for (Sort sort : SortVendu){
+                main.remove(sort);
+            }
+            for (Equipement equipement : EquipementVenduDeLaMain){
+                main.remove(equipement);
+            }
+        }
     }
 }
