@@ -43,4 +43,5 @@ public class Equipement extends Carte {
         }
         System.out.println("-----------------------------------------------");
     }
+
 }

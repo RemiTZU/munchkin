@@ -7,15 +7,26 @@ public class Joueur {
     private List<Equipement> board;
     private Race race;
     private int minimumPourFuir;
+    private int pantalon;
+    private int chaussures;
+    private int casque;
+    private int armure;
+    private int mains;
+    private int gros;
 
     public Joueur(String nom) {
         this.nom = nom;
         this.main = new ArrayList<>();
         this.board = new ArrayList<>();
         this.niveau = 1; // Initialisation du niveau à 1
-        this.race = null;
+        this.race = new Race("pas de race", "");
         this.minimumPourFuir = 5;
-
+        this.pantalon = 1;
+        this.chaussures = 1;
+        this.casque = 1;
+        this.armure = 1;
+        this.mains = 2;
+        this.gros = 1;
     }
 
     // Ajout de la méthode getNom
@@ -231,7 +242,7 @@ public class Joueur {
             System.out.println("Choisissez une carte de votre main à jouer :");
             System.out.println("0. Ne rien jouer");
             for (int i = 0; i < peutJouer.size(); i++) {
-                System.out.println((i + 1) + ". " + peutJouer.get(i).getNom());
+                System.out.println((i + 1) + ". " + peutJouer.get(i).getNom() );
             }
         }
         // Choix de la carte à jouer
@@ -247,6 +258,10 @@ public class Joueur {
                 if (carte instanceof Sort) {
                     jouerSort((Sort) carte);
                 } else if (carte instanceof Equipement) {
+                    //verifier si le joueur peut jouer cet équipement
+                    if(!verifierContrainteEquipement((Equipement) carte)){
+                        return jouerCarte();
+                    }
                     board.add((Equipement) carte);
                     main.remove(carte);
                     System.out.println("Le joueur a joué un équipement : " + carte.getNom());
@@ -264,6 +279,66 @@ public class Joueur {
         } catch (InputMismatchException e) {
             return jouerCarte();
         }
+    }
+
+    //vérifier si le joueur peut joeur un equipement par rapport à sa race  et aux emplacements disponibles
+    public boolean verifierContrainteEquipement(Equipement equipement){
+        System.out.println("Le joueur veut jouer l'équipement : "+equipement.getNom());
+        System.out.println("Effet : " + equipement.getEffet());
+        System.out.println("Type : " + equipement.getType());
+        Boolean peutJouer = true;
+        if (Objects.equals(equipement.getType(), "Pantalon")){
+            if (pantalon == 0){
+                peutJouer = false;
+                System.out.println("Problem pantalon");
+            }
+        }
+        if (Objects.equals(equipement.getType(), "Chaussures")){
+            if (chaussures == 0){
+                peutJouer = false;
+                System.out.println("Problem chaussures");
+            }
+        }
+        if (Objects.equals(equipement.getType(), "Casque")){
+            if (casque == 0){
+                peutJouer = false;
+                System.out.println("Problem casque");
+            }
+        }
+        if (Objects.equals(equipement.getType(), "Armure")){
+            if (armure == 0){
+                peutJouer = false;
+                System.out.println("Problem armure");
+            }
+        }
+        if (Objects.equals(equipement.getType(), "1 main")){
+            if (mains == 0){
+                peutJouer = false;
+                System.out.println("Problem 1 main");
+            }
+        }
+        if (Objects.equals(equipement.getType(), "2 mains")){
+            if (mains <= 1){
+                peutJouer = false;
+                System.out.println("Problem 2 mains");
+            }
+        }
+        if (Objects.equals(equipement.getType(), "Gros")){
+            if (gros == 0){
+                peutJouer = false;
+                System.out.println("Problem gros");
+            }
+        }
+        if ((!Objects.equals(equipement.getEffet(), ""))){
+            if (equipement.getEffet()!=race.getNom()){
+                peutJouer = false;
+                System.out.println("Problem classe");
+            }
+        }
+        if (!peutJouer){
+            System.out.println("Le joueur ne peut pas jouer cet équipement.");
+        }
+        return peutJouer;
     }
 
     // Ajout de la méthode gererNombreCartesMain
@@ -438,8 +513,6 @@ public class Joueur {
             SortAVendre.add(sort);
         }
 
-        
-
         // Choix de la carte à vendre
         while (somme < 100 ) {
             try {
@@ -475,7 +548,6 @@ public class Joueur {
                         System.out.println("Le joueur a vendu pour plus de 100euros.");
                         niveau = niveau + 1;
                         System.out.println("Le joueur a gagné un niveau.");
-                        return;
                     }
                 } else if (choix > EquipementAVendreDeLaMain.size() && choix <= EquipementAVendreDuBoard.size() + EquipementAVendreDeLaMain.size()) {
                     Equipement equipement = EquipementAVendreDuBoard.get(choix - EquipementAVendreDeLaMain.size() - 1);
@@ -488,7 +560,6 @@ public class Joueur {
                         System.out.println("Le joueur a vendu pour plus de 100euros.");
                         niveau = niveau + 1;
                         System.out.println("Le joueur a gagné un niveau.");
-                        return;
                     }
                 } else if (choix > EquipementAVendreDuBoard.size() + EquipementAVendreDeLaMain.size() && choix <= EquipementAVendreDuBoard.size() + EquipementAVendreDeLaMain.size() + SortAVendre.size()) {
                     Sort sort = SortAVendre.get(choix - EquipementAVendreDuBoard.size() - EquipementAVendreDeLaMain.size() - 1);
@@ -501,7 +572,6 @@ public class Joueur {
                         System.out.println("Le joueur a vendu pour plus de 100euros.");
                         niveau = niveau + 1;
                         System.out.println("Le joueur a gagné un niveau.");
-                        return;
                     }
                 } else {
                     System.out.println("Choix invalide. Veuillez choisir une carte valide.");

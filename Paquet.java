@@ -33,17 +33,52 @@ public class Paquet {
         ajouterCartePorte(virusInformatique);
         ajouterCartePorte(profMalhonete);
 
+
+
         // Ajout des nouveaux équipements
         Equipement jogginsGris = new Equipement("Joggins gris", 1, "pantalon", "",  20);
-        Equipement chaussureDeSport = new Equipement("Chaussure de sport", 2, "chaussure", "Plus 1 pour fuir", 60);
-        Equipement packDeBiere = new Equipement("Pack de bière", 5, "gros, 1 mains", "", 30);
+        Equipement chaussureDeSport = new Equipement("Chaussure de sport", 2, "chaussure", "", 60);//effet : +1 pour fuir
+        Equipement packDeBiere = new Equipement("Pack de bière", 5, "gros", "", 30);
         Equipement ordiSurpuissant = new Equipement("Ordi surpuissant", 5, "1 main", "", 80);
+        Equipement pinsBlousard = new Equipement("Pins blousard", 2,  "armure","",  20);
+        Equipement chaussettesMcdo = new Equipement("Chaussettes Mcdo", 3, "chaussure", "", 50);
+        Equipement casquette = new Equipement("Casquette", 2, "chapeau", "", 40); //effet : -2 contre monstres type prof
+        Equipement cafeNoisette = new Equipement("Café noisette", 1, "1 main", "", 60);
+        Equipement cafeAllonge = new Equipement("Café allongé", 2, "1 main", "", 80);
+        Equipement cafeCreme = new Equipement("Café crème", 3, "1 main", "", 100);
+        Equipement cheveuxGras = new Equipement("Cheveux gras", 5, "casque", "Informatique", 20); //faire INFO
+        Equipement batonDeLaSagesse = new Equipement("Baton de la sagesse", 7, "1 main", "Boursier", 60); //Faire FEMININ
+        Equipement outfitTrendy = new Equipement("Outfit trendy", 5, "armure", "Mécanique", 40); //faire feminin
+        Equipement batonMauvaiseFoi = new Equipement("Baton de mauvaise foi", 5, "1 main", "IMSI", 40); //faire MASCULIN
+        Equipement crayonsDeCouleur = new Equipement("Crayons de couleur", 3, "1 main", "EDIM", 40); //faire EDIM
+        Equipement carteUTBM = new Equipement("Carte UTBM", 3, "collier", "", 80);
+        Equipement calculetteNspire = new Equipement("Calculette Nspire", 6, "1 main", "", 100);// effet : détruit le monstre PMA
 
         // Ajout des nouveaux équipements au paquet de cartes Tresors
         ajouterCarteTresor(jogginsGris);
         ajouterCarteTresor(chaussureDeSport);
         ajouterCarteTresor(packDeBiere);
         ajouterCarteTresor(ordiSurpuissant);
+        ajouterCarteTresor(pinsBlousard);
+        ajouterCarteTresor(chaussettesMcdo);
+        ajouterCarteTresor(casquette);
+        ajouterCarteTresor(cafeNoisette);
+        ajouterCarteTresor(cafeAllonge);
+        ajouterCarteTresor(cafeCreme);
+        ajouterCarteTresor(cheveuxGras);
+        ajouterCarteTresor(batonDeLaSagesse);
+        ajouterCarteTresor(outfitTrendy);
+        ajouterCarteTresor(batonMauvaiseFoi);
+        ajouterCarteTresor(crayonsDeCouleur);
+        ajouterCarteTresor(carteUTBM);
+        ajouterCarteTresor(calculetteNspire);
+
+        //Ajoute de certains équipements au paquet de cartes Porte
+        ajouterCartePorte(jogginsGris);
+        ajouterCartePorte(calculetteNspire);
+        ajouterCartePorte(carteUTBM);
+        ajouterCartePorte(cafeCreme);
+        ajouterCartePorte(pinsBlousard);
 
         // Ajout des nouvelles races
         Race informatique = new Race("Informatique", "Puanteur : niveau doublé en affrontant des monstres seul");
@@ -131,6 +166,5 @@ public class Paquet {
         return carteTiree;
     }
 }
-
 
 
