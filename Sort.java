@@ -2,12 +2,13 @@ public class Sort extends Carte {
     private int bonus;
     private String effet;
     private int prix=0;
-
-    public Sort(String nom, int bonus, String effet, int prix) {
+    private int type;
+    public Sort(String nom, int bonus, String effet, int prix, int type) {
         super(nom);
         this.bonus = bonus;
         this.effet = effet;
         this.prix = prix;
+        this.type = type;
     }
 
     public int getBonus() {
@@ -20,6 +21,9 @@ public class Sort extends Carte {
 
     public int getPrix() {
         return prix;
+    }
+    public int getType() {
+        return type;
     }
 
     public void afficherSort() {

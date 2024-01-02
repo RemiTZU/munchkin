@@ -101,8 +101,11 @@ public class Joueur {
                     bonusSorts += sort.getBonus();
                     main.remove(sort);  // Retirer le sort de la main après l'avoir joué
                 }
+                if (sort.getNom().equalsIgnoreCase("enerverLeProf") || sort.getNom().equalsIgnoreCase("retourEnTC1")) {
+                    // Appliquer la fonction jouerSort pour le sort choisi
+                    joueur.jouerSortContreMonstre(sort, monstre);
             }
-
+            
             // Nouveau total des bonus du joueur
             int nouveauTotalBonus = bonusJoueur + bonusSorts;
 
@@ -211,21 +214,61 @@ public class Joueur {
         }
     }
 
-    public void jouerSort(Sort sort) {
+    public void jouerSortContreMonstre(Sort sort,Monstre monstre) {
         if (sort == null) {
             System.out.println("Pas de sort à jouer.");
             return;
         }
-
+        int niveaujoueiur = getNiveau();
         System.out.println("Le joueur joue un sort : " + sort.getNom());
+    
+        switch (sort.getNom()) {
+    
+            case "enerverLeProf":
+                monstre.gainNiveau(10);
+                break;
+            case "retourEnTC1":
+                monstre.gainNiveau(10);
+                break;
 
-        // Ici, vous pouvez ajouter la logique de jeu du sort
-        // ...
-
+    
+            default:
+                System.out.println("Effet du sort non défini.");
+        }
+    
         // Retirer le sort de la main du joueur
         main.remove(sort);
     }
-
+    
+    public void jouerSortContreJoueur(Sort sort,Joueur joueurCible) {
+        if (sort == null) {
+            System.out.println("Pas de sort à jouer.");
+            return;
+        }
+        
+        switch (sort.getNom()) {
+    
+            case "seFaireChopperATricher":
+                joueurCible.gainNiveau(-1);
+                break;
+            case "absenceInjustifiee":
+                joueurCible.gainNiveau(-2);
+                break;
+            case "Pleurer dans les jupes du prof":
+            case "Tricher pour passer":
+            case "Recopier pour mieux passer":
+                    // Ces sorts ont un effet commun de gain de 1 niveau
+                gainNiveau(1);
+                System.out.println("Effet du sort : Gain de 1 niveau !");
+                break;
+    
+            default:
+                System.out.println("Effet du sort non défini.");
+        }
+    
+        // Retirer le sort de la main du joueur
+        main.remove(sort);
+    }
     // Ajout de la méthode jouerCarte
     public int jouerCarte() {
         Scanner scanner = new Scanner(System.in);

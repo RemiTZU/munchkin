@@ -97,23 +97,17 @@ public class Paquet {
         }
 
         // Ajout des nouveaux sorts
-        Sort pleurerDansLesJupesDuProf = new Sort("Pleurer dans les jupes du prof", 0, "Gain de 1 niveau", 50);
-        Sort larbinEnInfo = new Sort("Larbin en info", 1, "Permet d'avoir un objet d'info", 50);
-        Sort larbinEnEDIM = new Sort("Larbin en EDIM", 1, "Permet d'avoir un objet en EDIM", 50);
-        Sort larbinEnMeca = new Sort("Larbin en Meca", 1, "Permet d'avoir un objet en Meca", 50);
-        Sort larbinEnImsi = new Sort("Larbin en Imsi", 1, "Permet d'avoir un objet en Imsi", 50);
-        Sort larbinEnEnergie = new Sort("Larbin en energie", 1, "Permet d'avoir un objet en energie", 50);
-        Sort larbin = new Sort("Larbin", 1, "Permet d'avoir un objet en plus", 50);
-        Sort tricherPourPasser = new Sort("Tricher pour passer", 0, "Gain de 1 niveau", 50);
-        Sort recopierPourMieuxPasser = new Sort("Recopier pour mieux passer", 0, "Gain de 1 niveau", 50);
-        Sort feuilleDeTriche = new Sort("Feuille de triche", +5, "au joueur",20);
-        Sort enerverLeProf = new Sort("Enerver le prof", +10, "au monstre", 40);
-        Sort seFaireChopperATricher = new Sort("Se faire chopper à tricher", -10, "au joueur", 40);
-        Sort absenceInjustifiee = new Sort("Absence injustifiée", -5, "au joueur", 20);
-        Sort retourEnTC1 = new Sort("Retour en TC1", +10, "Au monstre", 40);
+        Sort pleurerDansLesJupesDuProf = new Sort("Pleurer dans les jupes du prof", 0, "Gain de 1 niveau", 50,0);
+        Sort tricherPourPasser = new Sort("Tricher pour passer", 0, "Gain de 1 niveau", 50,0);
+        Sort recopierPourMieuxPasser = new Sort("Recopier pour mieux passer", 0, "Gain de 1 niveau", 50,0);
+        Sort feuilleDeTriche = new Sort("Feuille de triche", +5, "au joueur",20,0);
+        Sort enerverLeProf = new Sort("Enerver le prof", +10, "au monstre", 40,1);
+        Sort seFaireChopperATricher = new Sort("Se faire chopper à tricher", -10, "au joueur", 0);
+        Sort absenceInjustifiee = new Sort("Absence injustifiée", -5, "au joueur", 0);
+        Sort retourEnTC1 = new Sort("Retour en TC1", +10, "Au monstre", 1);
 
         // Ajout des nouveaux sorts au paquet de cartes Tresors
-        for (Sort sort : Arrays.asList(pleurerDansLesJupesDuProf, larbinEnInfo, larbinEnEDIM, larbinEnMeca, larbinEnImsi, larbinEnEnergie, larbin, tricherPourPasser, recopierPourMieuxPasser, feuilleDeTriche, enerverLeProf, seFaireChopperATricher, absenceInjustifiee, retourEnTC1)) {
+        for (Sort sort : Arrays.asList(pleurerDansLesJupesDuProf,  tricherPourPasser, recopierPourMieuxPasser, feuilleDeTriche, enerverLeProf, seFaireChopperATricher, absenceInjustifiee, retourEnTC1)) {
             ajouterCarteTresor(sort);
         }
 

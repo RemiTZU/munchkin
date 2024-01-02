@@ -58,7 +58,40 @@ public class Tour {
             } else if (cartePorte instanceof Sort) {
                 // Si c'est un sort, le joueur doit le jouer
                 Sort sort = (Sort) cartePorte;
-                joueur.jouerSort(sort);
+                while(true){
+                    flag = true;
+                if (sort.getType() == 0) {
+                    // Si c'est un sort qui s'applique au joueur, il est joué directement
+                    Scanner scanner = new Scanner(System.in);
+
+                    System.out.print("Veuillez entrer le nom d'un joueur : ");
+                    String nomJoueur = scanner.nextLine();
+                    if (nomJoueur.equals(joueur.getNom())) {
+                        System.out.println("Vous ne pouvez pas vous cibler vous-même.");
+                        
+                    }else{
+                    for (Joueur joueurCible : joueurs) {
+                        if (joueurCible.getNom().equals(nomJoueur)) {
+                            joueur.jouerSortContreJoueur(sort, joueurCible);
+                            scanner.close();
+
+                            flag = false;
+                            break;
+                        }
+                    }
+                    if (flag) {
+                        System.out.println("Le joueur n'existe pas.");
+                    }
+
+
+                    }
+                }
+                    
+                } else {
+                    joueur.main.add(sort);
+                   
+                }
+
             } else {
                 // Sinon, la carte va dans la main du joueur
                 joueur.piocherCarte(cartePorte);
@@ -103,8 +136,23 @@ public class Tour {
             }
             
             // A la fin de son tour, le joueur doit avoir maximum 5 cartes dans sa main.
-            distribuerCartesEnTrop(joueur);
+            larbin = false;
+            for (Carte carte : main) {
+                if (carte instanceof Sort) {
+                    Sort sort = (Sort) carte;
+                    if (sort.getNom().equals("Larbin")) {
+                        larbin = true;
+                        break; // Le joueur possède la carte "Larbin" dans sa main
+                    }
+                }
+            }
+            if (!larbin) {
+                // Si le joueur ne possède pas la carte "Larbin" dans sa main, il doit se défausser d'une carte
+                System.out.println("Le joueur doit se défausser d'une carte.");
+ 
+                distribuerCartesEnTrop(joueur);
 
+            }
             // Affichage du joueur après son tour
             System.out.println("-----------------------------------------------");
             joueur.afficherJoueur();
