@@ -226,7 +226,7 @@ public class Joueur {
         main.remove(sort);
     }
 
-    // Ajout de la méthode jouerSort
+    // Ajout de la méthode jouerCarte
     public int jouerCarte() {
         Scanner scanner = new Scanner(System.in);
         List<Carte> peutJouer = new ArrayList<>();
@@ -286,6 +286,7 @@ public class Joueur {
         System.out.println("Le joueur veut jouer l'équipement : "+equipement.getNom());
         System.out.println("Effet : " + equipement.getEffet());
         System.out.println("Type : " + equipement.getType());
+        System.out.println("Main libre : " + mains);
         Boolean peutJouer = true;
         if (Objects.equals(equipement.getType(), "Pantalon")){
             if (pantalon == 0){
@@ -337,7 +338,32 @@ public class Joueur {
         }
         if (!peutJouer){
             System.out.println("Le joueur ne peut pas jouer cet équipement.");
+        }else{
+            System.out.println("Le joueur peut jouer cet équipement.");
+            if (Objects.equals(equipement.getType(), "Pantalon")){
+                pantalon = 0;
+            }
+            if (Objects.equals(equipement.getType(), "Chaussures")){
+                chaussures = 0;
+            }
+            if (Objects.equals(equipement.getType(), "Casque")){
+                casque = 0;
+            }
+            if (Objects.equals(equipement.getType(), "Armure")){
+                armure = 0;
+            }
+            if (Objects.equals(equipement.getType(), "1 main")){
+                mains = mains - 1;
+            }
+            if (Objects.equals(equipement.getType(), "2 mains")){
+                mains = mains - 2;
+            }
+            if (Objects.equals(equipement.getType(), "Gros")){
+                gros = 0;
+            }
         }
+        System.out.println("Main libre : " + mains);
+
         return peutJouer;
     }
 
@@ -438,6 +464,9 @@ public class Joueur {
         }
     }
 
+    //----------------------------------------------------------//
+    //Tout ce qui est affichage
+
     public void afficherMain() {
         System.out.println("Main du joueur :");
         for (Carte carte : main) {
@@ -461,6 +490,10 @@ public class Joueur {
         afficherMain();
         afficherBoard();
     }
+
+
+    //----------------------------------------------------------//
+    //Tout ce qui est vente d'équipement et de sort
 
     public List<Equipement> getEquipementsMainVendable() {
         List<Equipement> equipements = new ArrayList<>();

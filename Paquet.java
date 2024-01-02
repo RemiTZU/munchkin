@@ -42,11 +42,11 @@ public class Paquet {
         Equipement ordiSurpuissant = new Equipement("Ordi surpuissant", 5, "1 main", "", 80);
         Equipement pinsBlousard = new Equipement("Pins blousard", 2,  "armure","",  20);
         Equipement chaussettesMcdo = new Equipement("Chaussettes Mcdo", 3, "chaussure", "", 50);
-        Equipement casquette = new Equipement("Casquette", 2, "chapeau", "", 40); //effet : -2 contre monstres type prof
+        Equipement casquette = new Equipement("Casquette", 2, "Casque", "", 40); //effet : -2 contre monstres type prof
         Equipement cafeNoisette = new Equipement("Café noisette", 1, "1 main", "", 60);
         Equipement cafeAllonge = new Equipement("Café allongé", 2, "1 main", "", 80);
         Equipement cafeCreme = new Equipement("Café crème", 3, "1 main", "", 100);
-        Equipement cheveuxGras = new Equipement("Cheveux gras", 5, "casque", "Informatique", 20); //faire INFO
+        Equipement cheveuxGras = new Equipement("Cheveux gras", 5, "Casque", "Informatique", 20); //faire INFO
         Equipement batonDeLaSagesse = new Equipement("Baton de la sagesse", 7, "1 main", "Boursier", 60); //Faire FEMININ
         Equipement outfitTrendy = new Equipement("Outfit trendy", 5, "armure", "Mécanique", 40); //faire feminin
         Equipement batonMauvaiseFoi = new Equipement("Baton de mauvaise foi", 5, "1 main", "IMSI", 40); //faire MASCULIN
