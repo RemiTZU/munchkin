@@ -33,7 +33,9 @@ public class Joueur {
     public String getNom() {
         return nom;
     }
-
+    public void gainNiveau(int gain) {
+        niveau = niveau + gain;
+    }
     // Ajout de la méthode affronteMonstre
     public void affronterMonstre(Monstre monstre,int bonusJoueur) {
         if (monstre == null) {
@@ -219,19 +221,16 @@ public class Joueur {
             System.out.println("Pas de sort à jouer.");
             return;
         }
-        int niveaujoueiur = getNiveau();
+
         System.out.println("Le joueur joue un sort : " + sort.getNom());
     
         switch (sort.getNom()) {
     
-            case "enerverLeProf":
-                monstre.gainNiveau(10);
-                break;
-            case "retourEnTC1":
+            case "enerverLeProf", "retourEnTC1":
                 monstre.gainNiveau(10);
                 break;
 
-    
+
             default:
                 System.out.println("Effet du sort non défini.");
         }

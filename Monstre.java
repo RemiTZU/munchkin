@@ -35,4 +35,7 @@ public class Monstre extends Carte {
         System.out.println("-----------------------------------------------");
 
     }
+    public void gainNiveau(int niveau){
+        this.niveau += niveau;
+    }
 }
