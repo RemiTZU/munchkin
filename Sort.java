@@ -3,6 +3,7 @@ public class Sort extends Carte {
     private String effet;
     private int prix=0;
     private int type;
+    
     public Sort(String nom, int bonus, String effet, int prix, int type) {
         super(nom);
         this.bonus = bonus;
