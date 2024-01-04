@@ -470,7 +470,7 @@ public class Joueur {
                 monstre.gainNiveau(monstre.getNiveau());
                 break;
 
-    
+
             default:
                 System.out.println("Effet du sort non défini.");
         }
