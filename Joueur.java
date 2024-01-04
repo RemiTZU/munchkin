@@ -142,6 +142,7 @@ public class Joueur {
 
     // Ajout de la méthode affronteMonstre
     public void affronterMonstre(Monstre monstre,int bonusJoueur, String joueurAide) {
+        int bonusMonstre=0;
         if (monstre == null) {
             System.out.println("Pas de monstre à affronter.");
             return;
@@ -149,7 +150,29 @@ public class Joueur {
 
         System.out.println("Le joueur affronte un monstre : " + monstre.getNom());
 
-        int niveauMonstre = monstre.getNiveau();
+        if (monstre.getEffet()=="+5 contre la branche info"){
+            if (getClass().getName()=="Informatique"){
+                System.out.println("Le monstre a un bonus de +5 contre la branche info");
+                bonusMonstre=5;
+            }
+        }else if (monstre.getEffet()=="+10 contre les TC"){
+            if (getClass().getName()=="TC"){
+                System.out.println("Le monstre a un bonus de +10 contre les TC");
+                bonusMonstre=10;
+            }
+        }else if (monstre.getEffet()=="-5 contre les mecaniques"){
+            if (getClass().getName()=="Mecanique"){
+                System.out.println("Le monstre a un malus de -5 contre les mecaniques");
+                bonusMonstre=-5;
+            }
+        }else if  (monstre.getEffet()=="-2 contre TC"){
+            if (getClass().getName()=="TC"){
+                System.out.println("Le monstre a un malus de -2 contre les TC");
+                bonusMonstre=-2;
+            }
+        }
+
+        int niveauMonstre = monstre.getNiveau()+bonusMonstre;
         System.out.println("Niveau du monstre : " + niveauMonstre);
         System.out.println("Bonus du joueur : " + bonusJoueur);
 
@@ -413,45 +436,55 @@ public class Joueur {
         if (race.getNom() == "IMSI"){
             minimumPourFuir=minimumPourFuir-1;
         }
-        if (de >= minimumPourFuir){
-            System.out.println("Le joueur "+getNom() + " a réussi à fuir");
-            if (race.getNom()=="EDIM"){
-                System.out.println("Le joueur "+getNom() + " peut piocher une carte trésor");
-                piocherCarte(paquet.tirerCarteAleatoire("TRESORS"),true);
+        if (monstre.getEffet()=="-1 à votre jet de fuite"){
+            minimumPourFuir=minimumPourFuir+1;
+        }
+        if (monstre.getEffet()!="Fuite impossible"){
+            if (de >= minimumPourFuir){
+                System.out.println("Le joueur "+getNom() + " a réussi à fuir");
+                if (race.getNom()=="EDIM" || monstre.getEffet()=="sa lenteur te permet de prendre un trésors en fuyant"){
+                    System.out.println("Le joueur "+getNom() + " peut piocher une carte trésor");
+                    piocherCarte(paquet.tirerCarteAleatoire("TRESORS"),true);
+                }
+                System.out.println("-----------------------------------------------");
+                return;
+            }else{
+                System.out.println("Le joueur "+getNom() + " n'a pas réussi à fuir");
             }
         }else{
-            System.out.println("Le joueur "+getNom() + " n'a pas réussi à fuir");
-            System.out.println("L'effet du monstre s'applique");
-            if (Objects.equals(monstre.getIncidentFacheux(), "-2 niveaux")){
-                System.out.println("Le joueur perd 2 niveaux");
-                gainNiveau(-2);
-            }else if (Objects.equals(monstre.getIncidentFacheux(), "-1 niveau")){
-                System.out.println("Le joueur perd 1 niveau");
-                gainNiveau(-1);
-            }else if (Objects.equals(monstre.getIncidentFacheux(), "Perte de tous les équipements")){
-                System.out.println("Le joueur perd tous ses équipements");
-                board.clear();
-            }else if (Objects.equals(monstre.getIncidentFacheux(), "Perte d'un équipement aléatoire")){
-                System.out.println("Le joueur perd un équipement aléatoire");
-                int index = (int) (Math.random() * board.size());
-                board.remove(index);
-                System.out.println("L'équipement "+board.get(index).getNom()+" a été retiré");
-            }else if (Objects.equals(monstre.getIncidentFacheux(), "La mort")){
-                System.out.println("Le joueur meurt");
-                niveau = 1;
-                board.clear();
-                main.clear();
-                for (int i = 0; i < 4; i++) {
-                    piocherCarte(paquet.tirerCarteAleatoire("PORTE"),false);
-                    piocherCarte(paquet.tirerCarteAleatoire("TRESORS"),false);
-                }
-            }else{
-                System.out.println("Perte de un niveau");
-                gainNiveau(-1);
-            }
-
+            System.out.println("Le joueur "+getNom() + " ne peut pas fuir");
         }
-
+        System.out.println("L'effet du monstre s'applique");
+        if (Objects.equals(monstre.getIncidentFacheux(), "-2 niveaux")){
+            System.out.println("Le joueur perd 2 niveaux");
+            gainNiveau(-2);
+        }else if (Objects.equals(monstre.getIncidentFacheux(), "-1 niveau")){
+            System.out.println("Le joueur perd 1 niveau");
+            gainNiveau(-1);
+        }else if (Objects.equals(monstre.getIncidentFacheux(), "Perte de tous les équipements")){
+            System.out.println("Le joueur perd tous ses équipements");
+            board.clear();
+        }else if (Objects.equals(monstre.getIncidentFacheux(), "Perte d'un équipement aléatoire")){
+            System.out.println("Le joueur perd un équipement aléatoire");
+            int index = (int) (Math.random() * board.size());
+            board.remove(index);
+            System.out.println("L'équipement "+board.get(index).getNom()+" a été retiré");
+        }else if (Objects.equals(monstre.getIncidentFacheux(), "La mort")){
+            System.out.println("Le joueur meurt");
+            niveau = 1;
+            board.clear();
+            main.clear();
+            for (int i = 0; i < 4; i++) {
+                piocherCarte(paquet.tirerCarteAleatoire("PORTE"),false);
+                piocherCarte(paquet.tirerCarteAleatoire("TRESORS"),false);
+            }
+        }else if (Objects.equals(monstre.getIncidentFacheux(), "Il vous laisse partir, il a pitié")){
+            System.out.println("Vous pouvez partir bredouille");
+        }else{
+            System.out.println("Perte de un niveau");
+            gainNiveau(-1);
+        }
+        System.out.println("-----------------------------------------------");
     }
 
     public void jouerSortContreMonstre(Sort sort,Monstre monstre) {
@@ -486,7 +519,21 @@ public class Joueur {
         }
         
         switch (sort.getEffet()) {
-    
+            case "Pioche 1 carte":
+                System.out.println("Le joueur "+joueurCible.getNom()+" pioche 1 carte");
+                joueurCible.piocherCarte(paquet.tirerCarteAleatoire("TRESORS"),true);
+                break;
+            case "Pioche 2 cartes":
+                System.out.println("Le joueur "+joueurCible.getNom()+" pioche 2 cartes");
+                joueurCible.piocherCarte(paquet.tirerCarteAleatoire("TRESORS"),true);
+                joueurCible.piocherCarte(paquet.tirerCarteAleatoire("TRESORS"),true);
+                break;
+            case "Pioche 3 cartes":
+                System.out.println("Le joueur "+joueurCible.getNom()+" pioche 3 cartes");
+                joueurCible.piocherCarte(paquet.tirerCarteAleatoire("TRESORS"),true);
+                joueurCible.piocherCarte(paquet.tirerCarteAleatoire("TRESORS"),true);
+                joueurCible.piocherCarte(paquet.tirerCarteAleatoire("TRESORS"),true);
+                break;
             case "Gain de 1 niveau":
                 joueurCible.gainNiveau(1);
                 System.out.println("Le joueur "+joueurCible.getNom()+" gagne 1 niveau");

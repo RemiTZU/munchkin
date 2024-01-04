@@ -45,7 +45,7 @@ public class Tour {
         }
     }
 
-    public void tour() {
+    public boolean tour() {
         System.out.println("Début du tour.");
         // tour pour chaque joueur
         for (Joueur joueur : joueurs) {
@@ -72,6 +72,11 @@ public class Tour {
                 // Si c'est un monstre, le joueur doit l'affronter
                 Monstre monstre = (Monstre) cartePorte;
                 joueur.affronterMonstre(monstre,joueur.calculerBonusTotal(),"");
+                System.out.println("-----------------------------------------------");
+                if (joueur.getNiveau()==10){
+                    System.out.println("Le joueur "+joueur.getNom()+" a atteint le niveau 10. Il a gagné la partie.");
+                    return true;
+                }
             } else{
 
                 if (cartePorte instanceof Sort) {
@@ -93,6 +98,10 @@ public class Tour {
                 // ou de piocher une autre carte porte qui va directement dans sa main.
                 demanderChoixJoueur(joueur);
                 System.out.println("-----------------------------------------------");
+                if (joueur.getNiveau()==10){
+                    System.out.println("Le joueur "+joueur.getNom()+" a atteint le niveau 10. Il a gagné la partie.");
+                    return true;
+                }
             }
 
             // Le joueur peut choisir de jouer une carte de sa main.
@@ -100,6 +109,10 @@ public class Tour {
             do {
                 choix = joueur.jouerCarte();
                 System.out.println("-----------------------------------------------");
+                if (joueur.getNiveau()==10){
+                    System.out.println("Le joueur "+joueur.getNom()+" a atteint le niveau 10. Il a gagné la partie.");
+                    return true;
+                }
             } while (choix != 0);
             
             
@@ -125,6 +138,10 @@ public class Tour {
                     System.out.println("Veuillez entrer un nombre valide.");
                 }
                 System.out.println("-----------------------------------------------");
+                if (joueur.getNiveau()==10){
+                    System.out.println("Le joueur "+joueur.getNom()+" a atteint le niveau 10. Il a gagné la partie.");
+                    return true;
+                }
             }
             
             // A la fin de son tour, le joueur doit avoir maximum 5 cartes dans sa main.
@@ -135,8 +152,8 @@ public class Tour {
             joueur.afficherJoueur();
             System.out.println("-----------------------------------------------");
         }
-
         System.out.println("\nFin du tour.");
+        return false;
     }
 
     private void distribuerCartesEnTrop(Joueur player) {

@@ -9,7 +9,11 @@ public class MunchkinGame {
         Tour tour = new Tour(nbJoueurs);
 
         // Commencer le tour
-        tour.tour();
+        boolean finDePartie =false;
+        while (!finDePartie) {
+            finDePartie = tour.tour();
+        }
+        
     }
 
     private static int demanderNombreJoueurs() {
